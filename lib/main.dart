@@ -59,15 +59,15 @@ class _MyAppState extends State<MyApp> {
                       padding: const EdgeInsets.all(10.0),
                       child: TextFormField(
                         validator: (value){
-                          onSaved: (value){
-                            setState(() {
-                              contact.number=value;
-                            });
-
-                          };
                           if(value==null || value.length<10){
                             return "please enter a valid mobile number";
                           }
+                        },
+                        onSaved: (value){
+                          setState(() {
+                            contact.number=value;
+                          });
+
                         },
 
                           keyboardType: TextInputType.phone,
@@ -94,31 +94,34 @@ class _MyAppState extends State<MyApp> {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 0),
-              child: Container(
-                width: screenWidth,
-                child: Card(
-                  margin: const EdgeInsets.all(10),
-                  child: ListView.builder(
-                      itemBuilder:(context, index){
-                        return  Column(
-                          children: [
-                            ListTile(
-                              leading: Icon(Icons.account_circle,color: Colors.blue[600],),
-                              title: Text(
-                                  contacts[index].name!.toUpperCase(),
-                                style: TextStyle(
-                                  color: Colors.blue[600]
-                                ),
-                              ),
-                              subtitle: Text(contacts[index].number!),
+            Expanded(
+              child: Card(
+                margin: const EdgeInsets.all(10),
+                child: ListView.builder(
+                    itemBuilder:(context, index){
+                      return  Column(
+                        children: [
+                          ListTile(
+                            leading: Icon(
+                              Icons.account_circle,
+                              color: Colors.blue[600],
+                              size: 50,
                             ),
-                            const Divider(height: 15,)
-                          ],
-                        );
-                      }
-                  ),
+                            title: Text(
+
+                                contacts[index].name!.toUpperCase(),
+                              style: TextStyle(
+                                color: Colors.blue[600]
+                              ),
+                            ),
+                            subtitle:  Text(
+                                contacts[index].number!
+                            ),
+                          ),
+                          const Divider(height: 15,)
+                        ],
+                      );
+                    }
                 ),
               ),
             )
@@ -133,7 +136,7 @@ class _MyAppState extends State<MyApp> {
     if(form!.validate()){
       form.save();
       setState(() {
-        contacts.add(contact);
+        contacts.add(Contact(id: null,name:contact.name,number: contact.number));
       });
 
       form.reset();
