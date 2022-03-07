@@ -98,6 +98,7 @@ class _MyAppState extends State<MyApp> {
               child: Card(
                 margin: const EdgeInsets.all(10),
                 child: ListView.builder(
+                  itemCount: contacts.length,
                     itemBuilder:(context, index){
                       return  Column(
                         children: [
@@ -107,9 +108,7 @@ class _MyAppState extends State<MyApp> {
                               color: Colors.blue[600],
                               size: 50,
                             ),
-                            title: Text(
-
-                                contacts[index].name!.toUpperCase(),
+                            title: Text('',
                               style: TextStyle(
                                 color: Colors.blue[600]
                               ),
