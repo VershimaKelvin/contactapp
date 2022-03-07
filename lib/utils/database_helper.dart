@@ -37,10 +37,10 @@ class DatabaseHelper{
     db.execute(
       '''
       CREATE TABLE $tableName(
-      
-      
+      $columnId PRIMARY KEY NOT NULL
+      $columnName TEXT NOT NULL
+      $columnAge INT NOT NULL
       )
-  
       '''
     );
   }
