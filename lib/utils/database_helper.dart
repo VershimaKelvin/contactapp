@@ -45,4 +45,23 @@ class DatabaseHelper{
     );
   }
 
+  Future<int> insert(Map<String, dynamic> row)async{
+    Database database = await instance.database;
+    return await database.insert(tableName, row);
+  }
+
+  Future<List<Map<String,dynamic>>> query()async{
+    Database database = await instance.database;
+    return await database.query(tableName);
+  }
+
+  Future<int> update(Map<String,dynamic> row)async{
+    Database database = await instance.database;
+    return await database.update(tableName, row);
+  }
+
+  // Future<int> delete(int id)async{
+  //
+  // }
+
 }
