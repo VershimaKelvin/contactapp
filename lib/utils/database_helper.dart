@@ -9,7 +9,7 @@ class DatabaseHelper{
   DatabaseHelper.privateConstructor();
   static DatabaseHelper instance= DatabaseHelper.privateConstructor();
 
-  static const  databaseName = 'myDb.db';
+  static const  databaseName = 'myDatabase.db';
   static const dbVersion=1;
   static const tableName= 'myTable';
   static const columnId = 'id';
@@ -22,9 +22,7 @@ class DatabaseHelper{
     if(_database!=null){
       return _database!;
     }
-    else {
       return await initializeDatabase();
-    }
   }
 
   Future<Database> initializeDatabase()async{
@@ -33,12 +31,12 @@ class DatabaseHelper{
     return await openDatabase(path,version: dbVersion,onCreate:onCreate);
   }
 
-  onCreate(Database db, int version){
-    db.execute(
-      '''
+  onCreate(Database db, int version)async{
+   await db.execute(
+        '''
       CREATE TABLE $tableName(
-      $columnId PRIMARY KEY NOT NULL
-      $columnName TEXT NOT NULL
+      $columnId INTEGER PRIMARY KEY,
+      $columnName TEXT NOT NULL,
       $columnAge TEXT NOT NULL
       )
       '''

@@ -129,18 +129,16 @@ class _MyAppState extends State<MyApp> {
     String number;
     var form = formKey.currentState;
     if(form!.validate()){
-      name = nameController.text;
-      number = numberController.text;
+      name = nameController.text.toString();
+      number = numberController.text.toString();
       Map<String, dynamic> row = {
         'name':name,
         'number':number
       };
      int returns = await instance.insert(row);
-      print(instance.query());
       setState(() {
         contacts.add(Contact(id: 4,name: name,number: number));
       });
-      print(name + number);
       form.reset();
     }
 
