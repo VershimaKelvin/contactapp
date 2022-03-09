@@ -1,5 +1,7 @@
 import 'package:contactapp/models/contact.dart';
+import 'package:contactapp/utils/database_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:sqflite/sqflite.dart';
 
 void main() {
   runApp(const MaterialApp(home: MyApp()));
@@ -13,9 +15,11 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  final nameController = TextEditingController();
+  final numberController = TextEditingController();
+  DatabaseHelper instance =DatabaseHelper.instance;
   final formKey = GlobalKey<FormState>();
-  Contact contact = Contact();
-  List<Contact> contacts = [];
+  List<Contact> contacts = [Contact(id: 1,name: 'kelvin',number: '09027454638'),Contact(id: 2, name: 'dave', number: '08184489193')];
 
   @override
   Widget build(BuildContext context) {
@@ -38,16 +42,11 @@ class _MyAppState extends State<MyApp> {
                     Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: TextFormField(
+                        controller: nameController,
                         validator: (value){
                         if(value ==null || value.isEmpty){
                           return 'please Enter a name';
                         }
-                        },
-                        onSaved: (value){
-                          setState(() {
-                            contact.name=value;
-                          });
-
                         },
                         keyboardType: TextInputType.name,
                         decoration: const InputDecoration(
@@ -58,16 +57,11 @@ class _MyAppState extends State<MyApp> {
                     Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: TextFormField(
+                        controller: numberController,
                         validator: (value){
                           if(value==null || value.length<10){
                             return "please enter a valid mobile number";
                           }
-                        },
-                        onSaved: (value){
-                          setState(() {
-                            contact.number=value;
-                          });
-
                         },
 
                           keyboardType: TextInputType.phone,
@@ -94,50 +88,59 @@ class _MyAppState extends State<MyApp> {
                 ),
               ),
             ),
-            Expanded(
-              child: Card(
-                margin: const EdgeInsets.all(10),
-                child: ListView.builder(
-                  itemCount: contacts.length,
-                    itemBuilder:(context, index){
-                      return  Column(
-                        children: [
-                          ListTile(
-                            leading: Icon(
-                              Icons.account_circle,
-                              color: Colors.blue[600],
-                              size: 50,
-                            ),
-                            title: Text('',
-                              style: TextStyle(
-                                color: Colors.blue[600]
-                              ),
-                            ),
-                            subtitle:  Text(
-                                contacts[index].number!
-                            ),
-                          ),
-                          const Divider(height: 15,)
-                        ],
-                      );
-                    }
-                ),
-              ),
-            )
+            // Expanded(
+            //   child: Card(
+            //     margin: const EdgeInsets.all(10),
+            //     child: ListView.builder(
+            //       itemCount: contacts.length,
+            //         itemBuilder:(context, index){
+            //           return  Column(
+            //             children: [
+            //               ListTile(
+            //                 leading: Icon(
+            //                   Icons.account_circle,
+            //                   color: Colors.blue[600],
+            //                   size: 50,
+            //                 ),
+            //                 title: Text(contacts[index].name!,
+            //                   style: TextStyle(
+            //                     color: Colors.blue[600]
+            //                   ),
+            //                 ),
+            //                 subtitle:  Text(
+            //                     contacts[index].number!
+            //                 ),
+            //               ),
+            //               const Divider(height: 15,)
+            //             ],
+            //           );
+            //         }
+            //     ),
+            //   ),
+            // )
           ],
         ),
       ),
     );
   }
 
-  onSubmit(){
+  onSubmit() async {
+    String name;
+    String number;
     var form = formKey.currentState;
     if(form!.validate()){
-      form.save();
+      name = nameController.text;
+      number = numberController.text;
+      Map<String, dynamic> row = {
+        'name':name,
+        'number':number
+      };
+     int returns = await instance.insert(row);
+      print(instance.query());
       setState(() {
-        contacts.add(Contact(id: null,name:contact.name,number: contact.number));
+        contacts.add(Contact(id: 4,name: name,number: number));
       });
-
+      print(name + number);
       form.reset();
     }
 

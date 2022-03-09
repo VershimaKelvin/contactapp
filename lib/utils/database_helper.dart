@@ -7,19 +7,19 @@ import 'package:path/path.dart';
 
 class DatabaseHelper{
   DatabaseHelper.privateConstructor();
-  DatabaseHelper instance= DatabaseHelper.privateConstructor();
+  static DatabaseHelper instance= DatabaseHelper.privateConstructor();
 
   static const  databaseName = 'myDb.db';
   static const dbVersion=1;
   static const tableName= 'myTable';
   static const columnId = 'id';
   static const columnName = 'name';
-  static const columnAge = 'Age';
+  static const columnAge = 'number';
 
   Database? _database;
 
   Future<Database> get database async{
-    if(_database==null){
+    if(_database!=null){
       return _database!;
     }
     else {
@@ -39,7 +39,7 @@ class DatabaseHelper{
       CREATE TABLE $tableName(
       $columnId PRIMARY KEY NOT NULL
       $columnName TEXT NOT NULL
-      $columnAge INT NOT NULL
+      $columnAge TEXT NOT NULL
       )
       '''
     );
