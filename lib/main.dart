@@ -128,19 +128,30 @@ class _MyAppState extends State<MyApp> {
     String name;
     String number;
     var form = formKey.currentState;
-    if(form!.validate()){
-      name = nameController.text.toString();
-      number = numberController.text.toString();
-      Map<String, dynamic> row = {
-        'name':name,
-        'number':number
-      };
-     int returns = await instance.insert(row);
-      setState(() {
-        contacts.add(Contact(id: 4,name: name,number: number));
-      });
-      form.reset();
-    }
+    Map<String, dynamic> row = {
+          'name':'VERSHIMA',
+          'number':'123455678'
+        };
+
+    print( await instance.query());
+    await instance.update(row);
+    print( await instance.query());
+
+    // if(form!.validate()){
+    //   name = nameController.text.toString();
+    //   number = numberController.text.toString();
+    //   Map<String, dynamic> row = {
+    //     'name':name,
+    //     'number':number
+    //   };
+    //  int returns = await instance.insert(row);
+    //
+    //  print(await instance.query());
+    //   setState(() {
+    //     contacts.add(Contact(id: 4,name: name,number: number));
+    //   });
+    //   form.reset();
+    // }
 
   }
 }
