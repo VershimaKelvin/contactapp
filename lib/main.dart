@@ -134,7 +134,7 @@ class _MyAppState extends State<MyApp> {
         };
 
     print( await instance.query());
-    await instance.update(row);
+    instance.update(row);
     print( await instance.query());
 
     // if(form!.validate()){

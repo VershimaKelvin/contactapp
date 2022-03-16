@@ -53,9 +53,11 @@ class DatabaseHelper{
     return await database.query(tableName);
   }
 
+
+  //update database
   Future<int> update(Map<String,dynamic> row)async{
     Database database = await instance.database;
-    return await database.update(tableName, row,where: 'id=?',whereArgs:[1] );
+    return await database.update(tableName, row,where: 'id=?',whereArgs:[2] );
   }
 
   // Future<int> delete(int id)async{
